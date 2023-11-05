@@ -29,7 +29,7 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if(loginModel.isDBConnected()) {
-            isConnected.setText("CONNECTED");
+            isConnected.setText("PLEASE LOGIN");
         }
         else {
             isConnected.setText("CONNECTION FAILED");
