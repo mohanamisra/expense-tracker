@@ -1,3 +1,24 @@
-@font-face {
-    font-family: ;
+#isConnected {
+    -fx-font-size: 25;
+    -fx-font-weight: bold;
+    -fx-text-fill: #fff8eb;
+}
+
+#loginScreen {
+    -fx-background-color: #000038;
+}
+
+#username {
+    -fx-background-color: #fff8eb;
+}
+
+#password {
+    -fx-background-color: #fff8eb;
+}
+
+#loginButton {
+    -fx-background-color: #00a5ff;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 20;
 }
