@@ -1,9 +1,9 @@
 package com.example.expensetracker;
 
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -17,8 +17,10 @@ import java.util.ResourceBundle;
 
 public class ExpenseFormController implements Initializable {
     Connection connection;
+    public boolean update;
 
     public ExpenseFormController() {
+        update = false;
         connection = SQLiteConnection.Connector();
         if(connection == null) System.exit(1);
     }
@@ -60,16 +62,36 @@ public class ExpenseFormController implements Initializable {
     }
 
     public void insertExpense(ActionEvent event) {
-        String col = "\"" + comboBox.getValue().toString() + "\"";
-        int val = Integer.parseInt(expenseCost.getText());
+        update = true;
+        String category = "\"" + comboBox.getValue().toString() + "\"";
+        int newValue = Integer.parseInt(expenseCost.getText());
 
-        String query = "UPDATE user SET " + col + " = ? WHERE username = ?";
-
+        String query = "SELECT " + category + " FROM user WHERE username = ?";
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, val);
-            preparedStatement.setString(2, "mohanamisra");
-            preparedStatement.executeUpdate();
+            PreparedStatement selectStatement = connection.prepareStatement(query);
+            selectStatement.setString(1, "mohanamisra"); // Replace with the actual username
+
+            ResultSet resultSet = selectStatement.executeQuery();
+
+            int oldValue = 0;
+
+            if (resultSet.next()) {
+                oldValue = resultSet.getInt(1); // Get the current value from the database
+            }
+
+            // Calculate the new total
+            int totalValue = oldValue + newValue;
+
+            // Update the database with the new total
+            String updateQuery = "UPDATE user SET " + category + " = ? WHERE username = ?";
+            PreparedStatement updateStatement = connection.prepareStatement(updateQuery);
+            updateStatement.setInt(1, totalValue);
+            updateStatement.setString(2, "mohanamisra"); // Replace with the actual username
+            updateStatement.executeUpdate();
+
+            // Clean up
+            selectStatement.close();
+            updateStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -80,5 +102,4 @@ public class ExpenseFormController implements Initializable {
             }
         }
     }
-
 }

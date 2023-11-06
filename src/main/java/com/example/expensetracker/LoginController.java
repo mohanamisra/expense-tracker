@@ -17,6 +17,7 @@ import java.util.ResourceBundle;
 public class LoginController implements Initializable {
     public int budget;
     public LoginModel loginModel = new LoginModel();
+    private String loggedInUser;
 
     @FXML
     private Label isConnected;
@@ -53,6 +54,8 @@ public class LoginController implements Initializable {
                 userController.setBudget("₹" + String.valueOf(budget));
                 this.budget = Integer.parseInt(String.valueOf(budget));
 
+                loggedInUser = username.getText();
+
                 Scene scene = new Scene(root);
                 stage.setTitle("Display Screen");
                 stage.setScene(scene);
@@ -65,5 +68,9 @@ public class LoginController implements Initializable {
             isConnected.setText("LOGIN FAILED");
             e.printStackTrace();
         }
+    }
+
+    public String getLoggedInUser() {
+        return loggedInUser;
     }
 }
