@@ -30,6 +30,7 @@ public class LoginModel {
 
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
+                System.out.println(user);
                 return true;
 
             } else {
@@ -74,7 +75,18 @@ public class LoginModel {
             }
         }catch(SQLException e) {
             e.printStackTrace();
+        }finally {
+            try {
+                connection.close();
+                preparedStatement.close();
+            }catch(Exception e) {
+                e.printStackTrace();
+            }
         }
         return 0;
+    }
+
+    public String getUsername(String user) {
+        return user;
     }
 }

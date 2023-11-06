@@ -15,6 +15,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
+    public int budget;
     public LoginModel loginModel = new LoginModel();
 
     @FXML
@@ -50,6 +51,8 @@ public class LoginController implements Initializable {
 
                 int budget = loginModel.getBudget(username.getText());
                 userController.setBudget("₹" + String.valueOf(budget));
+                this.budget = Integer.parseInt(String.valueOf(budget));
+
                 Scene scene = new Scene(root);
                 stage.setTitle("Display Screen");
                 stage.setScene(scene);
